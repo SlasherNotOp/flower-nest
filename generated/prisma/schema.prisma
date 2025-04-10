@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id       Int            @id @default(autoincrement())
+  name          String
+  email         String         @unique
+  password      String
+  phone         String?
+  address       String?
+  created_at    DateTime       @default(now())
+  cart          Cart[]
+  orders        Order[]
+  customOrders  CustomOrder[]
+  subscriptions Subscription[]
+}
+
+model Category {
+  category_id Int       @id @default(autoincrement())
+  name        String
+  products    Product[]
+}
+
+model Product {
+  product_id  Int         @id @default(autoincrement())
+  name        String
+  description String
+  image_url   String
+  price       Float
+  stock       Int
+  category    Category    @relation(fields: [category_id], references: [category_id])
+  category_id Int
+  cartItems   Cart[]
+  orderItems  OrderItem[]
+}
+
+model Cart {
+  cart_id    Int      @id @default(autoincrement())
+  user       User     @relation(fields: [user_id], references: [user_id])
+  user_id    Int
+  product    Product  @relation(fields: [product_id], references: [product_id])
+  product_id Int
+  quantity   Int      @default(1)
+  added_at   DateTime @default(now())
+}
+
+model Order {
+  order_id     Int         @id @default(autoincrement())
+  user         User        @relation(fields: [user_id], references: [user_id])
+  user_id      Int
+  total_amount Float
+  status       String      @default("Pending")
+  placed_at    DateTime    @default(now())
+  items        OrderItem[]
+}
+
+model OrderItem {
+  order_item_id Int     @id @default(autoincrement())
+  order         Order   @relation(fields: [order_id], references: [order_id])
+  order_id      Int
+  product       Product @relation(fields: [product_id], references: [product_id])
+  product_id    Int
+  quantity      Int
+  price         Float
+}
+
+model CustomOrder {
+  custom_order_id     Int      @id @default(autoincrement())
+  user                User     @relation(fields: [user_id], references: [user_id])
+  user_id             Int
+  title               String
+  description         String
+  reference_image_url String?
+  message             String?
+  status              String   @default("Pending")
+  submitted_at        DateTime @default(now())
+}
+
+model Subscription {
+  subscription_id Int              @id @default(autoincrement())
+  user            User             @relation(fields: [user_id], references: [user_id])
+  user_id         Int
+  type            SubscriptionType
+  start_date      DateTime
+  is_active       Boolean          @default(true)
+}
+
+enum SubscriptionType {
+  Daily
+  Weekly
+  Monthly
+}
