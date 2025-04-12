@@ -2,8 +2,10 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
-import pkg from '@prisma/client';
-const { PrismaClient } = pkg;
+import { PrismaClient } from '@prisma/client';
+
+
+// const prisma =new Prisma
 
 
 const prisma = new PrismaClient()
@@ -24,7 +26,11 @@ app.post('/users', async (req, res) => {
   console.log(req.body)
   try {
     const user = await prisma.user.create({
-      data: req.body
+      data: {
+        name:req.body.name,
+        email:req.body.email,
+        pass:req.body.pass
+      }
     });
     res.json(user);
   } catch (err) {

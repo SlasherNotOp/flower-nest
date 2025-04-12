@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -15,10 +14,10 @@ datasource db {
 }
 
 model User {
-  user_id       Int            @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   name          String
   email         String         @unique
-  password      String
+  pass          String
   phone         String?
   address       String?
   created_at    DateTime       @default(now())
@@ -49,7 +48,7 @@ model Product {
 
 model Cart {
   cart_id    Int      @id @default(autoincrement())
-  user       User     @relation(fields: [user_id], references: [user_id])
+  user       User     @relation(fields: [user_id], references: [id])
   user_id    Int
   product    Product  @relation(fields: [product_id], references: [product_id])
   product_id Int
@@ -59,7 +58,7 @@ model Cart {
 
 model Order {
   order_id     Int         @id @default(autoincrement())
-  user         User        @relation(fields: [user_id], references: [user_id])
+  user         User        @relation(fields: [user_id], references: [id])
   user_id      Int
   total_amount Float
   status       String      @default("Pending")
@@ -79,7 +78,7 @@ model OrderItem {
 
 model CustomOrder {
   custom_order_id     Int      @id @default(autoincrement())
-  user                User     @relation(fields: [user_id], references: [user_id])
+  user                User     @relation(fields: [user_id], references: [id])
   user_id             Int
   title               String
   description         String
@@ -91,7 +90,7 @@ model CustomOrder {
 
 model Subscription {
   subscription_id Int              @id @default(autoincrement())
-  user            User             @relation(fields: [user_id], references: [user_id])
+  user            User             @relation(fields: [user_id], references: [id])
   user_id         Int
   type            SubscriptionType
   start_date      DateTime
