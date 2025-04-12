@@ -2,43 +2,24 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
-import { PrismaClient } from '@prisma/client';
-
-
-// const prisma =new Prisma
-
-
-const prisma = new PrismaClient()
-// use `prisma` in your application to read and write data in your DB
+import userRoutes from './routes/userRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import customOrderRoutes from './routes/customOrderRoutes.js';
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Basic test route
-app.get('/', (req, res) => {
-  res.send('API is working 🎉');
-});
+app.get('/', (req, res) => res.send('Garland API 🎉'));
 
-// Example: Create a user
-app.post('/users', async (req, res) => {
-  console.log(req.body)
-  try {
-    const user = await prisma.user.create({
-      data: {
-        name:req.body.name,
-        email:req.body.email,
-        pass:req.body.pass
-      }
-    });
-    res.json(user);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/custom-orders', customOrderRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
