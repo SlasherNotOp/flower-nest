@@ -31,6 +31,13 @@ export const placeOrder = async (req, res) => {
 
   // Optionally clear cart here
 
+  await prisma.cart.deleteMany({
+    where:{
+      user_id:req.user.id
+    }
+  })
+
+
   res.status(201).json(order);
 };
 
