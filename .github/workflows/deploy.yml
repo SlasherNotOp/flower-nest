@@ -20,7 +20,7 @@ jobs:
         port: 22
         script: |
           ls
-          cd /flower-nest
+          cd flower-nest
           sudo su
           git pull origin main
           npm install
