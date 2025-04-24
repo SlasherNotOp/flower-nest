@@ -25,5 +25,9 @@ jobs:
           cd flower-nest
           git pull origin main
           npm install
+          cd ..
+          cd frontend
+          cd flower-nest
+          git pull origin main
           npm run build
           pm2 restart all
