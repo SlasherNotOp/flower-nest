@@ -21,7 +21,6 @@ jobs:
         script: |
           ls
           cd flower-nest
-          sudo su
-          git pull origin main
-          # npm install
-          pm2 restart all  # or any other command to restart your app
+          sudo git pull origin main
+          sudo npm install
+          psudo pm2 restart all  # or any other command to restart your app
