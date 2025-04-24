@@ -26,7 +26,6 @@ jobs:
           git pull origin main
           npm install
           cd ..
-          sudo su
           cd frontend
           cd flower-nest
           git pull origin main
