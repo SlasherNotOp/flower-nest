@@ -18,6 +18,7 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         port: 22
         script: |
+          slasher
           cd /flower-nest
           sudo su
           git pull origin main
