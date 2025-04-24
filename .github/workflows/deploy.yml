@@ -22,5 +22,5 @@ jobs:
           ls
           cd flower-nest
           sudo git pull origin main
-          sudo npm install
-          sudo pm2 restart all  # or any other command to restart your app
+          sudo -E npm install
+          sudo -E pm2 restart all or any other command to restart your app
