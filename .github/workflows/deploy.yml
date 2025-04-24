@@ -20,7 +20,10 @@ jobs:
         port: 22
         script: |
           ls
+          export NVM_DIR="/home/slasher/.nvm"
+          source "$NVM_DIR/nvm.sh"
           cd flower-nest
-          sudo git pull origin main
-          /home/slasher/.nvm/versions/node/v22.15.0/bin/npm install
-          /home/slasher/.nvm/versions/node/v22.15.0/bin/pm2 restart all
+          git pull origin main
+          npm install
+          npm run build
+          pm2 restart all
