@@ -19,6 +19,7 @@ jobs:
         passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
         port: 22
         script: |
+          ls
           cd /flower-nest
           sudo su
           git pull origin main
