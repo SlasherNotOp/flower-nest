@@ -20,11 +20,18 @@ model User {
   pass          String
   phone         String?
   address       String?
+  role          Role           @default(user)
   created_at    DateTime       @default(now())
   cart          Cart[]
   orders        Order[]
   customOrders  CustomOrder[]
   subscriptions Subscription[]
+}
+
+enum Role {
+  super_admin
+  admin
+  user
 }
 
 model Category {

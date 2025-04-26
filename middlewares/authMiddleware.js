@@ -15,3 +15,15 @@ export const protect = async (req, res, next) => {
     res.status(401).json({ message: 'Invalid Token' });
   }
 };
+
+export const checkAdminOrSuperAdmin = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  if (req.user.role === 'admin' || req.user.role === 'super_admin') {
+    next(); // User is allowed
+  } else {
+    return res.status(403).json({ message: "Forbidden: You don't have access" });
+  }
+};
