@@ -24,6 +24,7 @@ jobs:
           source "$NVM_DIR/nvm.sh"
           cd flower-nest
           git pull origin main
+          npx prisma generate
           npm install
           cd ..
           cd frontend
