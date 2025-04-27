@@ -77,16 +77,16 @@ export const deleteProduct = async (req, res) => {
       where: { product_id: id },
     });
 
-    await prisma.category.delete({
+    const category= await prisma.category.delete({
       where:{category_id:product.category_id}
     })
 
-    await prisma.product.delete({
+    const deletedProduct= await prisma.product.delete({
       where: { product_id: id },
     });
 
     res.json({ message: 'Product deleted successfully' });
   } catch (error) {
-    res.status(400).json({ message: 'Product not found or error deleting product' });
+    res.status(400).json({ message: 'Product not found or error deleting product',product,category,deletedProduct });
   }
 };
