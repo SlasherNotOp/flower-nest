@@ -68,7 +68,19 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   const id = parseInt(req.params.id);
 
+  
+
+
+
   try {
+    const product= await prisma.product.findFirst({
+      where: { product_id: id },
+    });
+
+    await prisma.category.delete({
+      where:{category_id:product.category_id}
+    })
+
     await prisma.product.delete({
       where: { product_id: id },
     });
