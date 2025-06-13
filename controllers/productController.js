@@ -67,14 +67,15 @@ export const updateProduct = async (req, res) => {
 // Delete Product
 export const deleteProduct = async (req, res) => {
   const id = parseInt(req.params.id);
-  const product={};
   try {
-    product= await prisma.product.delete({
+    const product = await prisma.product.delete({
       where: { product_id: id },
     });
-    res.json({ message: 'Product deleted successfully' });
+    res.json({ message: 'Product deleted successfully', product });
   } catch (error) {
-
-    res.status(400).json({ message: 'Product not found or error deleting product',product,error });
+    res.status(400).json({
+      message: 'Product not found or error deleting product',
+      error: error.message,
+    });
   }
 };
